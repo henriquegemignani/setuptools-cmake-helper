@@ -11,6 +11,6 @@ endif()
 find_package(Python COMPONENTS Development)
 
 add_library(native_test STATIC
-            source.c
+            cmake_lib.c
             )
 target_link_libraries(native_test PUBLIC Python::Module)

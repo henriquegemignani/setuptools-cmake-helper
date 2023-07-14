@@ -1,10 +1,12 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+#include "cmake_lib.h"
+
 static PyObject *
 spam_echo(PyObject *self, PyObject *args)
 {
-    return args;
+    return my_func(args);
 }
 
 static PyMethodDef SpamMethods[] = {

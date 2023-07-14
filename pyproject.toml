@@ -36,6 +36,7 @@ Homepage = "https://github.com/henriquegemignani/setuptools-cmake-helper"
 [project.optional-dependencies]
 test = [
     "pytest",
+    "pytest-cov",
     "build",
     "wheel",
 ]

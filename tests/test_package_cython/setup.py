@@ -16,7 +16,7 @@ ext_modules = [
         ],
         cmake_project=cmake_project_dir,
         cmake_targets=["native_test"],
-        language="c++",
+        language="c",
         extra_compile_args=[],
         extra_objects=[],
         include_dirs=[os.fspath(cmake_project_dir)],

@@ -26,7 +26,7 @@ class CMakeExtension(Extension):
     ):
         super().__init__(name, sources, *args, **kw)
         self.cmake_options = {
-            "dir": os.fspath(cmake_project.resolve()),
+            "dir": os.fspath(Path(cmake_project).resolve()),
             "targets": cmake_targets,
         }
 
@@ -130,7 +130,8 @@ if importlib.util.find_spec("Cython") is not None:
     ):
         def create_extension(template, kwds):
             """"""
-            kwds["cmake_options"] = template.cmake_options
+            kwds["cmake_project"] = template.cmake_options["dir"]
+            kwds["cmake_targets"] = template.cmake_options["targets"]
             return default_create_extension(template, kwds)
 
         cythonized_ext_modules = cythonize(

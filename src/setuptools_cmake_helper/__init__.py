@@ -13,10 +13,20 @@ is_windows = platform.system() == "Windows"
 
 
 class CMakeExtension(Extension):
-    def __init__(self, name, sources, cmake_options, *args, **kw):
+    def __init__(
+        self,
+        name: str,
+        sources,
+        cmake_project: os.PathLike,
+        cmake_targets: list[str],
+        *args,
+        **kw,
+    ):
         super().__init__(name, sources, *args, **kw)
-        cmake_options["dir"] = os.fspath(Path(cmake_options["dir"]).resolve())
-        self.cmake_options = cmake_options
+        self.cmake_options = {
+            "dir": os.fspath(cmake_project.resolve()),
+            "targets": cmake_targets,
+        }
 
 
 class CMakeBuild(build_ext):
@@ -91,7 +101,7 @@ class CMakeBuild(build_ext):
                 check=True,
             )
 
-        for target, target_output in cmake_options["targets"].items():
+        for target in cmake_options["targets"]:
             if self.verbose:
                 print(["cmake", "--build", ".", "--target", target] + build_args)
             subprocess.run(

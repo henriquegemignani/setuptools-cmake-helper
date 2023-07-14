@@ -48,6 +48,7 @@ class CMakeBuild(build_ext):
         cmake_args = [
             f"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={extdir}",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
+            f"-DPYTHON_VERSION={sys.version_info.major}.{sys.version_info.minor}",
             "-DCMAKE_POSITION_INDEPENDENT_CODE=YES",
         ]
         library_output_dir = extdir

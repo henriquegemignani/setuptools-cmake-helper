@@ -8,7 +8,7 @@ if (MSVC)
     _ENABLE_EXTENDED_ALIGNED_STORAGE=1 NOMINMAX=1)
 endif()
 
-find_package(Python COMPONENTS Development)
+find_package(Python "${PYTHON_VERSION}" EXACT REQUIRED COMPONENTS Development)
 
 add_library(native_test STATIC
             cmake_lib.c

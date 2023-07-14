@@ -10,7 +10,7 @@ endif()
 
 find_package(Python COMPONENTS Development)
 
-add_library(native_test SHARED
+add_library(native_test STATIC
             source.c
             )
 target_link_libraries(native_test PUBLIC Python::Module)

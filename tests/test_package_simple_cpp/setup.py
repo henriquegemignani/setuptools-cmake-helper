@@ -4,7 +4,7 @@ from pathlib import Path
 import setuptools_cmake_helper
 from setuptools import setup
 
-file_dir = Path(__file__).parent.relative_to(Path().absolute())
+file_dir = Path(__file__).parent.absolute().relative_to(Path().absolute())
 
 cpp_code_dir = os.fspath(file_dir.joinpath("c_src"))
 custom_include_paths = [

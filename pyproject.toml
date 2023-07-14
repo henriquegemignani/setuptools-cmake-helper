@@ -37,6 +37,7 @@ Homepage = "https://github.com/henriquegemignani/setuptools-cmake-helper"
 test = [
     "pytest",
     "build",
+    "wheel",
 ]
 
 [tool.pytest.ini_options]

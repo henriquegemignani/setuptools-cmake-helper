@@ -95,6 +95,7 @@ class CMakeBuild(build_ext):
                 cwd=self.build_temp,
                 check=True,
             )
+
             ext.extra_objects.append(
                 os.fspath(
                     library_output_dir.joinpath(library_name_format.format(target))

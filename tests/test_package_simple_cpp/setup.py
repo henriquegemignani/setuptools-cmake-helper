@@ -26,6 +26,7 @@ ext_modules = [
         language="c++",
         extra_compile_args=[],
         extra_objects=[],
+        include_dirs=custom_include_paths,
     )
 ]
 

@@ -6,7 +6,12 @@
 static PyObject *
 spam_echo(PyObject *self, PyObject *args)
 {
-    return my_func(args);
+    PyObject *arg;
+
+    if (!PyArg_ParseTuple(args, "O", &arg))
+        return NULL;
+
+    return my_func(arg);
 }
 
 static PyMethodDef SpamMethods[] = {

@@ -30,14 +30,13 @@ class CMakeBuild(build_ext):
                 + ", ".join(e.name for e in self.extensions)
             )
 
+        self.cmake_version = tuple(
+            int(d)
+            for d in re.search(r"version\s*([\d.]+)", out.stdout).group(1).split(".")
+        )
+
         if is_windows:
-            cmake_version = tuple(
-                int(d)
-                for d in re.search(r"version\s*([\d.]+)", out.stdout)
-                .group(1)
-                .split(".")
-            )
-            if cmake_version < (3, 26, 2):
+            if self.cmake_version < (3, 1, 0):
                 raise RuntimeError("CMake >= 3.1.0 is required on Windows")
 
         super().run()
@@ -55,6 +54,10 @@ class CMakeBuild(build_ext):
 
         cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
+
+        if self.cmake_version > (3, 12, 0):
+            build_args.append("--parallel")
+
         if self.verbose:
             build_args.append("--verbose")
 
@@ -66,7 +69,6 @@ class CMakeBuild(build_ext):
             library_name_format = "{}.lib"
         else:
             cmake_args += ["-DCMAKE_BUILD_TYPE=" + cfg]
-            build_args += ["--", "-j2"]
             library_name_format = "lib{}.a"
 
         env = os.environ.copy()

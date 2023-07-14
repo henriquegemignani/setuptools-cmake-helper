@@ -34,6 +34,10 @@ content-type = "text/markdown"
 Homepage = "https://github.com/henriquegemignani/setuptools-cmake-helper"
 
 [project.optional-dependencies]
+cython = [
+    "Cython",
+]
+
 test = [
     "pytest",
     "pytest-cov",

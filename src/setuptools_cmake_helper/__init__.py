@@ -1,3 +1,4 @@
+import importlib.util
 import os
 import platform
 import re
@@ -106,3 +107,31 @@ class CMakeBuild(build_ext):
             )
 
         super().build_extension(ext)
+
+
+if importlib.util.find_spec("Cython") is not None:
+    from Cython.Build import cythonize
+    from Cython.Build.Dependencies import default_create_extension
+
+    def cythonize_extensions(
+        ext_modules: list[CMakeExtension], include_paths: list[str], language_level: str
+    ):
+        def create_extension(template, kwds):
+            """"""
+            kwds["cmake_options"] = template.cmake_options
+            return default_create_extension(template, kwds)
+
+        cythonized_ext_modules = cythonize(
+            ext_modules,
+            include_path=include_paths,
+            compiler_directives={
+                "embedsignature": True,
+                "language_level": language_level,
+            },
+            create_extension=create_extension,
+        )
+
+        for ext_module in cythonized_ext_modules:
+            ext_module.include_dirs = include_paths
+
+        return cythonized_ext_modules

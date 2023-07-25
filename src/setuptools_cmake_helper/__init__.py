@@ -34,19 +34,14 @@ class CMakeExtension(Extension):
 class CMakeBuild(build_ext):
     def run(self):
         try:
-            out = subprocess.run(
-                ["cmake", "--version"], stdout=subprocess.PIPE, check=True, text=True
-            )
+            out = subprocess.run(["cmake", "--version"], stdout=subprocess.PIPE, check=True, text=True)
         except (FileNotFoundError, subprocess.CalledProcessError):
             raise RuntimeError(
                 "CMake must be installed to build the following extensions: "
                 + ", ".join(e.name for e in self.extensions)
             )
 
-        self.cmake_version = tuple(
-            int(d)
-            for d in re.search(r"version\s*([\d.]+)", out.stdout).group(1).split(".")
-        )
+        self.cmake_version = tuple(int(d) for d in re.search(r"version\s*([\d.]+)", out.stdout).group(1).split("."))
 
         if is_windows:
             if self.cmake_version < (3, 1, 0):
@@ -85,9 +80,7 @@ class CMakeBuild(build_ext):
             library_name_format = "lib{}.a"
 
         env = os.environ.copy()
-        env["CXXFLAGS"] = '{} -DVERSION_INFO=\\"{}\\"'.format(
-            env.get("CXXFLAGS", ""), self.distribution.get_version()
-        )
+        env["CXXFLAGS"] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get("CXXFLAGS", ""), self.distribution.get_version())
         Path(self.build_temp).mkdir(parents=True, exist_ok=True)
 
         subprocess.run(
@@ -112,11 +105,7 @@ class CMakeBuild(build_ext):
                 check=True,
             )
 
-            ext.extra_objects.append(
-                os.fspath(
-                    library_output_dir.joinpath(library_name_format.format(target))
-                )
-            )
+            ext.extra_objects.append(os.fspath(library_output_dir.joinpath(library_name_format.format(target))))
 
         super().build_extension(ext)
 
@@ -125,9 +114,7 @@ if importlib.util.find_spec("Cython") is not None:
     from Cython.Build import cythonize
     from Cython.Build.Dependencies import default_create_extension
 
-    def cythonize_extensions(
-        ext_modules: list[CMakeExtension], include_paths: list[str], language_level: str
-    ):
+    def cythonize_extensions(ext_modules: list[CMakeExtension], include_paths: list[str], language_level: str):
         def create_extension(template, kwds):
             """"""
             kwds["cmake_project"] = template.cmake_options["dir"]

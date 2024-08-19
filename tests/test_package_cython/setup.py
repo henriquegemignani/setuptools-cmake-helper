@@ -3,8 +3,9 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-import setuptools_cmake_helper
 from setuptools import setup
+
+import setuptools_cmake_helper
 
 file_dir = Path(__file__).parent.absolute().relative_to(Path().absolute())
 

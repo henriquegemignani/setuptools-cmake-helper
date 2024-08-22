@@ -60,6 +60,10 @@ git_describe_command = "git describe --dirty --tags --long --match v[0-9]*"
 
 [tool.ruff]
 line-length = 120
+target-version = "py39"
+src = ["src"]
+
+[tool.ruff.lint]
 select = [
     "E", "F", "W", "C90", "I", "UP", "C4",
     "RSE",
@@ -74,13 +78,9 @@ select = [
     "PLR",
     "PLW",
 ]
+extend-ignore = [
+    "ISC001",  # may cause conflicts with formatter
+]
 
-# Version to target for generated code.
-target-version = "py38"
-
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
-
-[tool.black]
-line-length = 120
-target-version = ['py38', 'py39', 'py310', 'py311']

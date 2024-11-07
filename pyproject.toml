@@ -60,7 +60,6 @@ git_describe_command = "git describe --dirty --tags --long --match v[0-9]*"
 
 [tool.ruff]
 line-length = 120
-target-version = "py39"
 src = ["src"]
 
 [tool.ruff.lint]

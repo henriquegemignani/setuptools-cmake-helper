@@ -114,12 +114,26 @@ if importlib.util.find_spec("Cython") is not None:
     from Cython.Build import cythonize
     from Cython.Build.Dependencies import default_create_extension
 
-    def cythonize_extensions(ext_modules: list[CMakeExtension], include_paths: list[str], compiler_directives: dict):
+    def cythonize_extensions(
+        ext_modules: list[CMakeExtension],
+        include_paths: list[str],
+        language_level: str | None = None,
+        *,
+        compiler_directives: dict | None = None,
+    ):
         def create_extension(template, kwds):
             """"""
             kwds["cmake_project"] = template.cmake_options["dir"]
             kwds["cmake_targets"] = template.cmake_options["targets"]
             return default_create_extension(template, kwds)
+
+        if compiler_directives is None:
+            compiler_directives = {
+                "embedsignature": True,
+            }
+
+        if language_level is not None:
+            compiler_directives["language_level"] = language_level
 
         cythonized_ext_modules = cythonize(
             ext_modules,

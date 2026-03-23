@@ -6,10 +6,10 @@ import platform
 import re
 import subprocess
 import sys
-from distutils.command.build_ext import build_ext
 from pathlib import Path
 
 from setuptools import Extension
+from setuptools.command.build_ext import build_ext
 
 is_windows = platform.system() == "Windows"
 
